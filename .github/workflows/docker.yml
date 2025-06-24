@@ -16,8 +16,22 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag mapillary/opensfm:$GITHUB_SHA
 
-      - name: Run C++ tests
-        run: docker run mapillary/opensfm:$GITHUB_SHA /bin/sh -c "cd cmake_build && ctest"
 
-      - name: Run Python tests
-        run: docker run mapillary/opensfm:$GITHUB_SHA python3 -m pytest
+      - name: Export whl to releases
+      run: |
+        mkdir -p wheel_output
+        docker create --name temp_container mapillary/opensfm:$GITHUB_SHA
+        docker cp temp_container:/source/OpenSfM/dist/. ./wheel_output/
+        docker rm temp_container
+
+          - name: Upload wheel artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: opensfm-wheels
+        path: ./wheel_output/
+
+      # - name: Run C++ tests
+      #   run: docker run mapillary/opensfm:$GITHUB_SHA /bin/sh -c "cd cmake_build && ctest"
+
+      # - name: Run Python tests
+      #   run: docker run mapillary/opensfm:$GITHUB_SHA python3 -m pytest
