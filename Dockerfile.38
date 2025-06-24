@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:jammy
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -23,9 +23,13 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
-COPY . /source/OpenSfM
-
 WORKDIR /source/OpenSfM
 
-RUN pip3 install -r requirements.txt && \
-    python3 setup.py build
+COPY requirements.txt /source/OpenSfM/requirements.txt
+
+RUN pip3 install -r requirements.txt
+
+COPY . /source/OpenSfM
+
+RUN python3 setup.py build
+RUN python3 setup.py bdist_wheel
