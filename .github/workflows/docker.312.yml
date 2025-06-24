@@ -1,4 +1,4 @@
-name: Docker CI 38
+name: Docker CI 312
 
 on: [push, pull_request]
 
@@ -14,24 +14,24 @@ jobs:
           submodules: true
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile.38 --tag mapillary/opensfm.38:$GITHUB_SHA
+        run: docker build . --file Dockerfile.312 --tag mapillary/opensfm.312:$GITHUB_SHA
 
 
       - name: Export whl to releases
         run: |
           mkdir -p wheel_output
-          docker create --name temp_container mapillary/opensfm.38:$GITHUB_SHA
+          docker create --name temp_container mapillary/opensfm.312:$GITHUB_SHA
           docker cp temp_container:/source/OpenSfM/dist/. ./wheel_output/
           docker rm temp_container
 
       - name: Upload wheel artifact
         uses: actions/upload-artifact@v4
         with:
-          name: opensfm-wheels.38
+          name: opensfm-wheels.312
           path: ./wheel_output/
 
       # - name: Run C++ tests
-      #   run: docker run mapillary/opensfm.38:$GITHUB_SHA /bin/sh -c "cd cmake_build && ctest"
+      #   run: docker run mapillary/opensfm.312:$GITHUB_SHA /bin/sh -c "cd cmake_build && ctest"
 
       # - name: Run Python tests
-      #   run: docker run mapillary/opensfm.38:$GITHUB_SHA python3 -m pytest
+      #   run: docker run mapillary/opensfm.312:$GITHUB_SHA python3 -m pytest
