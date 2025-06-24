@@ -18,17 +18,17 @@ jobs:
 
 
       - name: Export whl to releasesX
-      run: |
-        mkdir -p wheel_output
-        docker create --name temp_container mapillary/opensfm:$GITHUB_SHA
-        docker cp temp_container:/source/OpenSfM/dist/. ./wheel_output/
-        docker rm temp_container
+        run: |
+          mkdir -p wheel_output
+          docker create --name temp_container mapillary/opensfm:$GITHUB_SHA
+          docker cp temp_container:/source/OpenSfM/dist/. ./wheel_output/
+          docker rm temp_container
 
-          - name: Upload wheel artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: opensfm-wheels
-        path: ./wheel_output/
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: opensfm-wheels
+          path: ./wheel_output/
 
       # - name: Run C++ tests
       #   run: docker run mapillary/opensfm:$GITHUB_SHA /bin/sh -c "cd cmake_build && ctest"
