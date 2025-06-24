@@ -17,7 +17,7 @@ jobs:
         run: docker build . --file Dockerfile --tag mapillary/opensfm:$GITHUB_SHA
 
 
-      - name: Export whl to releases
+      - name: Export whl to releasesX
       run: |
         mkdir -p wheel_output
         docker create --name temp_container mapillary/opensfm:$GITHUB_SHA
