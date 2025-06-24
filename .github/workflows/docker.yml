@@ -25,7 +25,7 @@ jobs:
           docker rm temp_container
 
       - name: Upload wheel artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: opensfm-wheels
           path: ./wheel_output/
